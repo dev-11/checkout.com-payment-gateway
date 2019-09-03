@@ -1,3 +1,4 @@
+using System;
 using Xunit;
 
 namespace PaymentGateway.Service.Tests
@@ -5,28 +6,13 @@ namespace PaymentGateway.Service.Tests
     public class PaymentServiceTests
     {
         [Fact]
-        public void PaymentIsSuccessfulOnValidRequest()
+        public void NotImplementedExceptionIsBeingThrown()
         {
-        }
+            var service = new PaymentService();
 
-        [Fact]
-        public void PaymentIsRejectedOnEmptyRequest()
-        {
-        }
+            Action act = () => service.ProcessPayment(new PaymentRequest());
 
-        [Fact]
-        public void PaymentIsRejectedOnNullRequest()
-        {
-        }
-
-        [Fact]
-        public void PaymentIsRejectedOnUnknownCurrency()
-        {
-        }
-
-        [Fact]
-        public void PaymentIsRejectedOnNegativeAmount()
-        {
+            Assert.Throws<NotImplementedException>(act);
         }
 
     }
