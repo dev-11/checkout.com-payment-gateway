@@ -1,13 +1,13 @@
-using System;
 using Xunit;
 
 namespace PaymentGateway.WebApi.Tests
 {
-    public class UnitTest1
+    public class PaymentHistoryTests
     {
         [Fact]
-        public void Test1()
+        public void Test01()
         {
+            
         }
     }
 }
