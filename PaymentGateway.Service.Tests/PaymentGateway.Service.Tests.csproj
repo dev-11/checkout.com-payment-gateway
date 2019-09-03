@@ -16,4 +16,8 @@
       <Folder Include="Mocks" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\PaymentGateway.Service\PaymentGateway.Service.csproj" />
+    </ItemGroup>
+
 </Project>
