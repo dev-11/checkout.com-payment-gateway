@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentGateway.WebApi", "PaymentGateway.WebApi\PaymentGateway.WebApi.csproj", "{9F15F384-2B48-4340-99D4-86B3B11626A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentGateway.Service", "PaymentGateway.Service\PaymentGateway.Service.csproj", "{459C6FD5-4822-4683-8F1F-62A1F58C6A23}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentGateway.Service.Tests", "PaymentGateway.Service.Tests\PaymentGateway.Service.Tests.csproj", "{A547455B-4E43-4CDA-9FEB-5CAB59E84F91}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentGateway.WebApi.Tests", "PaymentGateway.WebApi.Tests\PaymentGateway.WebApi.Tests.csproj", "{A37E16B4-F288-4943-AB04-D4A9006D6587}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9F15F384-2B48-4340-99D4-86B3B11626A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F15F384-2B48-4340-99D4-86B3B11626A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F15F384-2B48-4340-99D4-86B3B11626A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F15F384-2B48-4340-99D4-86B3B11626A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{459C6FD5-4822-4683-8F1F-62A1F58C6A23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{459C6FD5-4822-4683-8F1F-62A1F58C6A23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{459C6FD5-4822-4683-8F1F-62A1F58C6A23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{459C6FD5-4822-4683-8F1F-62A1F58C6A23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A547455B-4E43-4CDA-9FEB-5CAB59E84F91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A547455B-4E43-4CDA-9FEB-5CAB59E84F91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A547455B-4E43-4CDA-9FEB-5CAB59E84F91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A547455B-4E43-4CDA-9FEB-5CAB59E84F91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A37E16B4-F288-4943-AB04-D4A9006D6587}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A37E16B4-F288-4943-AB04-D4A9006D6587}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A37E16B4-F288-4943-AB04-D4A9006D6587}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A37E16B4-F288-4943-AB04-D4A9006D6587}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
