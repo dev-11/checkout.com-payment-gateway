@@ -19,5 +19,5 @@ build:
 test_script:
 - .\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:"test --logger:trx;LogFileName=results.trx /p:DebugType=full .\PaymentGateway.Service.Tests\PaymentGateway.Service.Tests.csproj" -output:"coverage.xml" -filter:"+[PaymentGateway*]* -[*.Tests]*" -oldstyle
 - codecov -f "coverage.xml"
-- .\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:"test --logger:trx;LogFileName=results.trx /p:DebugType=full .\PaymentGateway.Service.Tests\PaymentGateway.WebApi.Service.Tests.csproj" -output:"api_coverage.xml" -filter:"+[PaymentGateway*]* -[*.Tests]*" -oldstyle
+- .\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:"test --logger:trx;LogFileName=results.trx /p:DebugType=full .\PaymentGateway.WebApi.Tests\PaymentGateway.WebApi.Tests.csproj" -output:"api_coverage.xml" -filter:"+[PaymentGateway*]* -[*.Tests]*" -oldstyle
 - codecov -f "api_coverage.xml"
