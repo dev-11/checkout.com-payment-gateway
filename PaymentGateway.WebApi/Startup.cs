@@ -27,7 +27,7 @@ namespace PaymentGateway.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            
+            services.AddMvcCore().AddMetricsCore();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "Payment GateWay Api", Version = "v1" });

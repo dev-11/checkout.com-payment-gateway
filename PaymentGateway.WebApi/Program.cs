@@ -7,6 +7,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using App.Metrics.AspNetCore;
 
 namespace PaymentGateway.WebApi
 {
@@ -19,6 +20,7 @@ namespace PaymentGateway.WebApi
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+                    .UseMetrics()
+                    .UseStartup<Startup>();
     }
 }
