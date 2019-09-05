@@ -10,7 +10,7 @@ namespace PaymentGateway.WebApi.Tests
         public void Test1()
         {
             var controller = new PaymentController();
-            var v = controller.Index(1);
+            var v = controller.RequestPayment(1);
             v.Result.Should().Be(1);
         }
     }

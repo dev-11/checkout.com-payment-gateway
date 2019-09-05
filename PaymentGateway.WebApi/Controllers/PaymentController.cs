@@ -7,8 +7,8 @@ namespace PaymentGateway.WebApi.Controllers
     [ApiController]
     public class PaymentController : Controller
     {
-        [HttpPost("{id}")]
-        public async Task<int> Index(int id)
+        [HttpPost]
+        public async Task<int> RequestPayment(int id)
         {
             return id;
         }
