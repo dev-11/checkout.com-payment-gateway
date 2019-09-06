@@ -26,6 +26,44 @@ namespace PaymentGateway.Service.Tests.Mocks
                         return mock.Object;
                     }
                 }
+
+                public static IPaymentRepository PaymentRepositoryForNotFoundTest
+                {
+                    get
+                    {
+                        var mock = new Mock<IPaymentRepository>();
+                        mock.Setup(x => x.GetPaymentHistory(It.IsAny<Guid>()))
+                            .Returns(new PaymentHistoryResponse
+                            {
+                                Card = new Card()
+                            });
+
+                        return mock.Object;
+                    }
+                }
+
+                public static IPaymentRepository GeneralPaymentRepository
+                {
+                    get
+                    {
+                        var mock = new Mock<IPaymentRepository>();
+                        mock.Setup(x => x.GetPaymentHistory(It.IsAny<Guid>()))
+                            .Returns(new PaymentHistoryResponse
+                            {
+                                Card = new Card
+                                {
+                                    CardNumber = "4716171572210785",
+                                    Cvv = 123,
+                                    ExpiryMonth = 11,
+                                    ExpiryYear = 20
+                                },
+                                Amount = 12,
+                                Currency = "GBP"
+                            });
+
+                        return mock.Object;
+                    }
+                }
             }
 
             public static class PaymentServiceTests
