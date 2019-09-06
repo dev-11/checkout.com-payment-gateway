@@ -1,4 +1,5 @@
 using System;
+using FluentAssertions;
 using Xunit;
 
 namespace PaymentGateway.Service.Tests
@@ -6,14 +7,27 @@ namespace PaymentGateway.Service.Tests
     public class PaymentServiceTests
     {
         [Fact]
-        public void NotImplementedExceptionIsBeingThrown()
+        public void ProcessPayment_ReturnsEmptyResponseOnEmptyRequest()
         {
-            var service = new PaymentService();
+            var service = new PaymentService(Mocks.Mock.For.PaymentServiceTests.PaymentRepositoryForEmptyRequest);
 
-            Action act = () => service.ProcessPayment(new PaymentRequest());
+            var response = service.ProcessPayment(Mocks.Mock.For.PaymentServiceTests.EmptyRequest);
 
-            Assert.Throws<NotImplementedException>(act);
+            response.Should().NotBeNull();
+            response.PaymentId.Should().Be(Guid.Empty);
+            response.IsRequestSucceeded.Should().BeFalse();
         }
 
+        [Fact]
+        public void ProcessPayment_ReturnsEmptyResponseOnNullRequest()
+        {
+            var service = new PaymentService(Mocks.Mock.For.PaymentServiceTests.PaymentRepositoryForEmptyRequest);
+
+            var response = service.ProcessPayment(null);
+
+            response.Should().NotBeNull();
+            response.PaymentId.Should().Be(Guid.Empty);
+            response.IsRequestSucceeded.Should().BeFalse();
+        }
     }
 }

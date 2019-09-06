@@ -1,4 +1,4 @@
-using System;
+using FluentAssertions;
 using Xunit;
 
 namespace PaymentGateway.Service.Tests
@@ -6,13 +6,20 @@ namespace PaymentGateway.Service.Tests
     public class PaymentHistoryServiceTests
     {
         [Fact]
-        public void NotImplementedExceptionIsBeingThrown()
+        public void GetPaymentHistory_ReturnsEmptyResponseOnEmptyRequest()
         {
-            var service = new PaymentHistoryService();
+            var service = new PaymentHistoryService(Mocks.Mock.For.PaymentHistoryServiceTests.PaymentRepositoryForEmptyRequest);
 
-            Action act = () => service.GetPaymentHistory(new Guid());
+            var response = service.GetPaymentHistory(Mocks.Mock.For.PaymentHistoryServiceTests.EmptyGuid);
 
-            Assert.Throws<NotImplementedException>(act);
+            response.Should().NotBeNull();
+            response.Amount.Should().Be(default(double));
+            response.Currency.Should().Be(default(string));
+            response.Card.Should().NotBeNull();
+            response.Card.Cvv.Should().Be(default(int));
+            response.Card.CardNumber.Should().Be(default(string));
+            response.Card.ExpiryMonth.Should().Be(default(int));
+            response.Card.ExpiryYear.Should().Be(default(int));
         }
     }
 }
