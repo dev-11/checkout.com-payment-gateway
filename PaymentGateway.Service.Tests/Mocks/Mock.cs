@@ -1,5 +1,6 @@
 using System;
 using Moq;
+using PaymentGateway.Service.Clients;
 
 namespace PaymentGateway.Service.Tests.Mocks
 {
@@ -41,6 +42,49 @@ namespace PaymentGateway.Service.Tests.Mocks
                         var mock = new Mock<IPaymentRepository>();
                         mock.Setup(x => x.SavePayment(It.IsAny<PaymentRequest>()))
                             .Returns(new PaymentResponse());
+
+                        return mock.Object;
+                    }
+                }
+
+                public static IPaymentRepository GeneralPaymentRepository
+                {
+                    get
+                    {
+                        var mock = new Mock<IPaymentRepository>();
+                        mock.Setup(x => x.SavePayment(It.IsAny<PaymentRequest>()))
+                            .Returns(new PaymentResponse
+                            {
+                                PaymentId = new Guid("85a47a09-3fd8-4843-b161-ded7a970b286"),
+                                IsRequestSucceeded = true
+                            });
+
+                        return mock.Object;
+                    }
+                }
+
+
+                public static IBankClient GeneralBankClientMock
+                {
+                    get
+                    {
+                        var mock = new Mock<IBankClient>();
+                        mock.Setup(x => x.ProcessTransaction(It.IsAny<BankTransactionRequestDto>()))
+                            .Returns((BankTransactionRequestDto request) =>
+                            {
+                                if (request is null)
+                                {
+                                    return new BankTransactionResponseDto
+                                    {
+                                        IsTransactionSuccessful = false
+                                    };
+                                }
+
+                                return new BankTransactionResponseDto
+                                {
+                                    IsTransactionSuccessful = request.Amount <= 100
+                                };
+                            });
 
                         return mock.Object;
                     }
