@@ -28,3 +28,4 @@ comment:
 ignore:
   - "**/Program.cs"
   - "**/Startup.cs"
+  - "**/Clients/**"
