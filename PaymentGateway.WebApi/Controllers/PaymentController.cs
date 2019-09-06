@@ -1,5 +1,8 @@
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using PaymentGateway.Service;
+using PaymentGateway.WebApi.Models;
 
 namespace PaymentGateway.WebApi.Controllers
 {
@@ -7,10 +10,31 @@ namespace PaymentGateway.WebApi.Controllers
     [ApiController]
     public class PaymentController : Controller
     {
-        [HttpPost]
-        public async Task<int> RequestPayment(int id)
+        private readonly IMapper<PaymentRequest, PaymentRequestDto> _requestMapper;
+        private readonly IMapper<PaymentResponse, PaymentResponseDto> _responseMapper;
+        private readonly IPaymentService _paymentService;
+
+        public PaymentController(IMapper<PaymentRequest,PaymentRequestDto> requestMapper,
+                                 IMapper<PaymentResponse, PaymentResponseDto> responseMapper,
+                                 IPaymentService paymentService)
         {
-            return id;
+            _requestMapper = requestMapper;
+            _paymentService = paymentService;
+            _responseMapper = responseMapper;
+        }
+
+        [HttpPost]
+        public IActionResult RequestPayment(PaymentRequestDto paymentRequest)
+        {
+//            if (!ModelState.IsValid)
+//            {
+//                return BadRequest(paymentRequest);
+//            }
+
+            var serviceRequest = _requestMapper.Map(paymentRequest);
+            var serviceResponse = _paymentService.ProcessPayment(serviceRequest);
+
+            return Ok(_responseMapper.Map(serviceResponse));
         }
     }
 }

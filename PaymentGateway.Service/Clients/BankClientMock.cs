@@ -1,30 +1,20 @@
-using Moq;
-
 namespace PaymentGateway.Service.Clients
 {
-    public class BankClientMock
+    public class BankClientMock : IBankClient
     {
-        public IBankClient Mock()
+        public BankTransactionResponseDto ProcessTransaction(BankTransactionRequestDto request)
         {
-            var mock = new Mock<IBankClient>();
-            mock.Setup(x => x.ProcessTransaction(It.IsAny<BankTransactionRequestDto>()))
-                .Returns((BankTransactionRequestDto request) =>
+            if (request is null)
+            {
+                return new BankTransactionResponseDto
                 {
-                    if (request is null)
-                    {
-                        return new BankTransactionResponseDto
-                        {
-                            IsTransactionSuccessful = false
-                        };
-                    }
+                    IsTransactionSuccessful = false
+                };
+            }
 
-                    return new BankTransactionResponseDto
-                    {
-                        IsTransactionSuccessful = request.Amount <= 100
-                    };
-                });
-
-            return mock.Object;
-        }
+            return new BankTransactionResponseDto
+            {
+                IsTransactionSuccessful = request.Amount <= 100
+            };        }
     }
 }
