@@ -22,20 +22,6 @@ namespace PaymentGateway.Service.Tests
         }
 
         [Fact]
-        public void ProcessPayment_ReturnsEmptyResponseOnNullRequest()
-        {
-            var service = new PaymentService(Mocks.Mock.For.PaymentServiceTests.PaymentRepositoryForEmptyRequest,
-                                             Mocks.Mock.For.PaymentServiceTests.GeneralBankClientMock,
-                                             Mocks.Mock.For.PaymentServiceTests.PaymentMapper);
-
-            var response = service.ProcessPayment(null);
-
-            response.Should().NotBeNull();
-            response.PaymentId.Should().Be(Guid.Empty);
-            response.IsRequestSucceeded.Should().BeFalse();
-        }
-
-        [Fact]
         public void ProcessPayment_ReturnsSuccessfulResponseForRequest()
         {
             var service = new PaymentService(Mocks.Mock.For.PaymentServiceTests.GeneralPaymentRepository,
