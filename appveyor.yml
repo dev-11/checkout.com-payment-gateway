@@ -19,7 +19,7 @@ build_script:
  - SonarScanner.MSBuild.exe end /d:"sonar.login=130d2a5a5117e7dda2e7c9dfd233c32412c2884d"
 
 test_script:
-- .\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:"test --logger:trx;LogFileName=results.trx /p:DebugType=full .\PaymentGateway.Service.Tests\PaymentGateway.Service.Tests.csproj" -output:"coverage.xml" -filter:"+[PaymentGateway*]* -[*.Tests]*" -oldstyle
-- codecov -f "coverage.xml"
-- .\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:"test --logger:trx;LogFileName=results.trx /p:DebugType=full .\PaymentGateway.WebApi.Tests\PaymentGateway.WebApi.Tests.csproj" -output:"api_coverage.xml" -filter:"+[PaymentGateway*]* -[*.Tests]*" -oldstyle
-- codecov -f "api_coverage.xml"
+- .\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:"test --logger:trx;LogFileName=results.trx /p:DebugType=full .\PaymentGateway.Service.Tests\PaymentGateway.Service.Tests.csproj" -output:"C:\projects\checkout-com-payment-gateway\coverage.xml" -filter:"+[PaymentGateway*]* -[*.Tests]*" -oldstyle
+- codecov -f "C:\projects\checkout-com-payment-gateway\coverage.xml"
+- .\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:"test --logger:trx;LogFileName=results.trx /p:DebugType=full .\PaymentGateway.WebApi.Tests\PaymentGateway.WebApi.Tests.csproj" -output:"C:\projects\checkout-com-payment-gateway\api_coverage.xml" -filter:"+[PaymentGateway*]* -[*.Tests]*" -oldstyle
+- codecov -f "C:\projects\checkout-com-payment-gateway\api_coverage.xml"
