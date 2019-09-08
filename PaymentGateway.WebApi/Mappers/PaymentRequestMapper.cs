@@ -1,28 +1,14 @@
-using PaymentGateway.Service;
+using PaymentGateway.Service.Dom;
 using PaymentGateway.WebApi.Models;
 
 namespace PaymentGateway.WebApi.Mappers
 {
-    public class PaymentRequestMapper : IMapper<PaymentRequest, PaymentRequestDto>
+    public class PaymentRequestMapper : IMapper<PaymentRequestDto, PaymentRequest>
     {
-        public PaymentRequestDto Map(PaymentRequest obj)
+        private readonly IMapper<CardDto, Card> _cardMapper;
+        public PaymentRequestMapper(IMapper<CardDto, Card> cardMapper)
         {
-            if (obj is null)
-            {
-                return new PaymentRequestDto();
-            }
-
-            return new PaymentRequestDto
-            {
-                Amount = obj.Amount,
-                Card = new CardDto
-                {
-                    Cvv = obj.Card.Cvv,
-                    CardNumber = obj.Card.CardNumber,
-                    ExpiryYear = obj.Card.ExpiryYear,
-                    ExpiryMonth = obj.Card.ExpiryMonth
-                }
-            };
+            _cardMapper = cardMapper;
         }
 
         public PaymentRequest Map(PaymentRequestDto obj)
@@ -35,13 +21,7 @@ namespace PaymentGateway.WebApi.Mappers
             return new PaymentRequest
             {
                 Amount = obj.Amount,
-                Card = new Card
-                {
-                    Cvv = obj.Card.Cvv,
-                    CardNumber = obj.Card.CardNumber,
-                    ExpiryYear = obj.Card.ExpiryYear,
-                    ExpiryMonth = obj.Card.ExpiryMonth
-                }
+                Card = _cardMapper.Map(obj.Card)
             };
         }
     }

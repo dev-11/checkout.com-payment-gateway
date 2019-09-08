@@ -1,4 +1,4 @@
-namespace PaymentGateway.Service
+namespace PaymentGateway.Service.Dom
 {
     public class Card
     {
@@ -6,5 +6,7 @@ namespace PaymentGateway.Service
         public int ExpiryMonth { get; set; }
         public int ExpiryYear { get; set; }
         public int Cvv { get; set; }
+
+        public static Card Empty => new Card();
     }
 }

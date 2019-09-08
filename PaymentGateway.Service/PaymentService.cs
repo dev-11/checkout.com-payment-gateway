@@ -1,5 +1,7 @@
 using System;
 using PaymentGateway.Service.Clients;
+using PaymentGateway.Service.Dom;
+using PaymentGateway.Service.Mappers;
 
 namespace PaymentGateway.Service
 {
@@ -7,37 +9,35 @@ namespace PaymentGateway.Service
     {
         private readonly IPaymentRepository _repository;
         private readonly IBankClient _bankClient;
+        private readonly IPaymentMapper _paymentMapper;
 
-        public PaymentService(IPaymentRepository repository, IBankClient bankClient)
+        public PaymentService(IPaymentRepository repository, IBankClient bankClient, IPaymentMapper paymentMapper)
         {
             _repository = repository;
             _bankClient = bankClient;
+            _paymentMapper = paymentMapper;
         }
 
         public PaymentResponse ProcessPayment(PaymentRequest paymentRequest)
         {
-            if (paymentRequest is null)
-            {
-                return new PaymentResponse
-                {
-                    IsRequestSucceeded = false
-                };
-            }
-
             var bankResponse = _bankClient.ProcessTransaction(new BankTransactionRequestDto
             {
                 Amount = paymentRequest.Amount
             });
 
-            if (!bankResponse.IsTransactionSuccessful)
-            {
-                return new PaymentResponse
-                {
-                    IsRequestSucceeded = false
-                };
-            }
+            var payment = _paymentMapper.Map(Guid.Empty, bankResponse.IsTransactionSuccessful, paymentRequest);
 
-            return _repository.SavePayment(paymentRequest);
+            var id = _repository.Save(payment);
+            return new PaymentResponse
+            {
+                PaymentId = id,
+                IsRequestSucceeded = payment.IsSuccessful
+            };
+        }
+
+        public Payment GetPayment(Guid paymentId)
+        {
+            return paymentId == Guid.Empty ? Payment.Empty : _repository.Get(paymentId);
         }
     }
 }

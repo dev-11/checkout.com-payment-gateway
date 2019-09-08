@@ -1,6 +1,6 @@
-namespace PaymentGateway.Service
+namespace PaymentGateway.Service.Dom
 {
-    public class PaymentHistoryResponse
+    public class PaymentRequest
     {
         public Card Card { get; set; }
         public double Amount { get; set; }

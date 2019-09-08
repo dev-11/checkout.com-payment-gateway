@@ -1,6 +1,8 @@
 using System;
 using Moq;
 using PaymentGateway.Service;
+using PaymentGateway.Service.Dom;
+using PaymentGateway.WebApi.Mappers;
 using PaymentGateway.WebApi.Models;
 
 namespace PaymentGateway.WebApi.Tests.Mocks
@@ -29,11 +31,11 @@ namespace PaymentGateway.WebApi.Tests.Mocks
                     }
                 }
 
-                public static IMapper<PaymentRequest, PaymentRequestDto> RequestMapper
+                public static IMapper<PaymentRequestDto, PaymentRequest> RequestMapper
                 {
                     get
                     {
-                        var mock = new Mock<IMapper<PaymentRequest, PaymentRequestDto>>();
+                        var mock = new Mock<IMapper<PaymentRequestDto, PaymentRequest>>();
                         mock.Setup(x => x.Map(It.IsAny<PaymentRequestDto>()))
                             .Returns(new PaymentRequest());
 

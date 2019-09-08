@@ -13,6 +13,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using PaymentGateway.Service;
 using PaymentGateway.Service.Clients;
+using PaymentGateway.Service.Dom;
+using PaymentGateway.Service.Mappers;
 using PaymentGateway.WebApi.Mappers;
 using PaymentGateway.WebApi.Models;
 using SimpleInjector;
@@ -76,12 +78,16 @@ namespace PaymentGateway.WebApi
         {
             _container.RegisterMvcControllers(app);
 
-            _container.Register<IMapper<PaymentRequest, PaymentRequestDto>, PaymentRequestMapper>(Lifestyle.Scoped);
+            _container.Register<IMapper<PaymentRequestDto, PaymentRequest>, PaymentRequestMapper>(Lifestyle.Scoped);
             _container.Register<IMapper<PaymentResponse, PaymentResponseDto>, PaymentResponseMapper>(Lifestyle.Scoped);
+            _container.Register<IMapper<Payment, PaymentDto>, PaymentDtoMapper>(Lifestyle.Scoped);
+            _container.Register<IMapper<CardDto, Card>, CardMapper>(Lifestyle.Scoped);
+            _container.Register<IMapper<Card, CardDto>, CardMapper>(Lifestyle.Scoped);
+
+            _container.Register<IPaymentMapper, PaymentMapper>(Lifestyle.Scoped);
 
             _container.Register<IPaymentService, PaymentService>(Lifestyle.Scoped);
-            _container.Register<IPaymentHistoryService, PaymentHistoryService>(Lifestyle.Scoped);
-            _container.Register<IPaymentRepository, PaymentRepository>(Lifestyle.Scoped);
+            _container.RegisterSingleton<IPaymentRepository, PaymentRepository>();
 
             _container.Register<IBankClient, BankClientMock>(Lifestyle.Scoped);
         }

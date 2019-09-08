@@ -1,5 +1,4 @@
 using System;
-using System.Net;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using PaymentGateway.WebApi.Controllers;
@@ -15,6 +14,7 @@ namespace PaymentGateway.WebApi.Tests
         {
             var controller = new PaymentController(Mocks.Mock.For.PaymentPaymentControllerTests.RequestMapper,
                                                    Mocks.Mock.For.PaymentPaymentControllerTests.ResponseMapper,
+                                                   null,
                                                    Mocks.Mock.For.PaymentPaymentControllerTests.PaymentService);
 
             var response = controller.RequestPayment(new PaymentRequestDto
@@ -34,7 +34,7 @@ namespace PaymentGateway.WebApi.Tests
             response.GetType().Should().Be(typeof(OkObjectResult));
             var httpResult = (OkObjectResult) response;
             httpResult.StatusCode.HasValue.Should().BeTrue();
-            httpResult.StatusCode.Value.Should().Be(200);
+            httpResult.StatusCode.Should().Be(200);
             ((OkObjectResult) response).Value.GetType().Should().Be(typeof(PaymentResponseDto));
             var payload = (PaymentResponseDto) ((OkObjectResult) response).Value;
             payload.PaymentId.Should().NotBe(Guid.Empty);

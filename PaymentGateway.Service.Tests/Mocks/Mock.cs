@@ -1,6 +1,8 @@
 using System;
 using Moq;
 using PaymentGateway.Service.Clients;
+using PaymentGateway.Service.Dom;
+using PaymentGateway.Service.Mappers;
 
 namespace PaymentGateway.Service.Tests.Mocks
 {
@@ -17,8 +19,8 @@ namespace PaymentGateway.Service.Tests.Mocks
                     get
                     {
                         var mock = new Mock<IPaymentRepository>();
-                        mock.Setup(x => x.GetPaymentHistory(It.IsAny<Guid>()))
-                            .Returns(new PaymentHistoryResponse
+                        mock.Setup(x => x.Get(It.IsAny<Guid>()))
+                            .Returns(new Payment
                             {
                                 Card = new Card()
                             });
@@ -32,8 +34,8 @@ namespace PaymentGateway.Service.Tests.Mocks
                     get
                     {
                         var mock = new Mock<IPaymentRepository>();
-                        mock.Setup(x => x.GetPaymentHistory(It.IsAny<Guid>()))
-                            .Returns(new PaymentHistoryResponse
+                        mock.Setup(x => x.Get(It.IsAny<Guid>()))
+                            .Returns(new Payment
                             {
                                 Card = new Card()
                             });
@@ -47,8 +49,8 @@ namespace PaymentGateway.Service.Tests.Mocks
                     get
                     {
                         var mock = new Mock<IPaymentRepository>();
-                        mock.Setup(x => x.GetPaymentHistory(It.IsAny<Guid>()))
-                            .Returns(new PaymentHistoryResponse
+                        mock.Setup(x => x.Get(It.IsAny<Guid>()))
+                            .Returns(new Payment
                             {
                                 Card = new Card
                                 {
@@ -78,8 +80,8 @@ namespace PaymentGateway.Service.Tests.Mocks
                     get
                     {
                         var mock = new Mock<IPaymentRepository>();
-                        mock.Setup(x => x.SavePayment(It.IsAny<PaymentRequest>()))
-                            .Returns(new PaymentResponse());
+                        mock.Setup(x => x.Save(It.IsAny<Payment>()))
+                            .Returns(Guid.Empty);
 
                         return mock.Object;
                     }
@@ -90,12 +92,8 @@ namespace PaymentGateway.Service.Tests.Mocks
                     get
                     {
                         var mock = new Mock<IPaymentRepository>();
-                        mock.Setup(x => x.SavePayment(It.IsAny<PaymentRequest>()))
-                            .Returns(new PaymentResponse
-                            {
-                                PaymentId = new Guid("85a47a09-3fd8-4843-b161-ded7a970b286"),
-                                IsRequestSucceeded = true
-                            });
+                        mock.Setup(x => x.Save(It.IsAny<Payment>()))
+                            .Returns(new Guid("85a47a09-3fd8-4843-b161-ded7a970b286"));
 
                         return mock.Object;
                     }
@@ -123,6 +121,66 @@ namespace PaymentGateway.Service.Tests.Mocks
                                     IsTransactionSuccessful = request.Amount <= 100
                                 };
                             });
+
+                        return mock.Object;
+                    }
+                }
+
+                public static IPaymentMapper PaymentMapper
+                {
+                    get
+                    {
+                        var mock = new Mock<IPaymentMapper>();
+                        mock.Setup(x => x.Map(It.IsAny<Guid>(), It.IsAny<bool>(), It.IsAny<PaymentRequest>()))
+                            .Returns(new Payment
+                            {
+                                Amount = 1,
+                                Currency = "currency",
+                                Card = new Card
+                                {
+                                    CardNumber = "1234123412341234",
+                                    Cvv = 123,
+                                    ExpiryMonth = 12,
+                                    ExpiryYear = 20
+                                },
+                                IsSuccessful = true
+                            });
+
+                        return mock.Object;
+                    }
+                }
+
+                public static IPaymentMapper PaymentMapperForFalseTransaction
+                {
+                    get
+                    {
+                        var mock = new Mock<IPaymentMapper>();
+                        mock.Setup(x => x.Map(It.IsAny<Guid>(), It.IsAny<bool>(), It.IsAny<PaymentRequest>()))
+                            .Returns(new Payment
+                            {
+                                Amount = 1,
+                                Currency = "currency",
+                                Card = new Card
+                                {
+                                    CardNumber = "1234123412341234",
+                                    Cvv = 123,
+                                    ExpiryMonth = 12,
+                                    ExpiryYear = 20
+                                },
+                                IsSuccessful = false
+                            });
+
+                        return mock.Object;
+                    }
+                }
+
+                public static IPaymentMapper PaymentMapperMapsToEmpty
+                {
+                    get
+                    {
+                        var mock = new Mock<IPaymentMapper>();
+                        mock.Setup(x => x.Map(It.IsAny<Guid>(), It.IsAny<bool>(), It.IsAny<PaymentRequest>()))
+                            .Returns(Payment.Empty);
 
                         return mock.Object;
                     }

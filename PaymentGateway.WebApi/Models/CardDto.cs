@@ -6,5 +6,7 @@ namespace PaymentGateway.WebApi.Models
         public int ExpiryMonth { get; set; }
         public int ExpiryYear { get; set; }
         public int Cvv { get; set; }
+        
+        public static CardDto Empty => new CardDto();
     }
 }
