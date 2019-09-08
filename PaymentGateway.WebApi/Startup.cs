@@ -52,7 +52,13 @@ namespace PaymentGateway.WebApi
             {
                 c.SwaggerDoc("v1", new Info { Title = "Payment GateWay Api", Version = "v1" });
             });
-            
+
+            services.AddSimpleInjector(_container, options =>
+            {
+                options.AddAspNetCore()
+                       .AddControllerActivation();
+            });
+
             services.AddTransient<IValidator<CardDto>, CardDtoValidator>();
             services.AddTransient<IValidator<PaymentRequestDto>, PaymentRequestDtoValidator>();
         }
@@ -60,7 +66,9 @@ namespace PaymentGateway.WebApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            RegisterDependencies(app);
+            app.UseSimpleInjector(_container);
+            
+            RegisterDependencies();
 
             if (env.IsDevelopment())
             {
@@ -71,7 +79,7 @@ namespace PaymentGateway.WebApi
                 app.UseHsts();
             }
 
-//            app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
             app.UseMvc();
             
             app.UseSwagger();
@@ -81,10 +89,8 @@ namespace PaymentGateway.WebApi
             });
         }
 
-        private void RegisterDependencies(IApplicationBuilder app)
+        private void RegisterDependencies()
         {
-            _container.RegisterMvcControllers(app);
-
             _container.Register<IMapper<PaymentRequestDto, PaymentRequest>, PaymentRequestDtoMapper>(Lifestyle.Scoped);
             _container.Register<IMapper<PaymentResponse, PaymentResponseDto>, PaymentResponseMapper>(Lifestyle.Scoped);
             _container.Register<IMapper<Payment, PaymentDto>, PaymentMapper>(Lifestyle.Scoped);
