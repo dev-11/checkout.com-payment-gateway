@@ -11,10 +11,12 @@ before_build:
 - nuget restore
 - nuget install OpenCover -OutputDirectory packages -Version 4.6.519
 - choco install codecov
+- choco install "sonarscanner-msbuild-net46" -y
 
-build:
-  project: CheckoutPaymentGateway.sln
-  verbosity: minimal
+build_script:
+ - SonarScanner.MSBuild.exe begin /k:"checkout.com-payment-gateway" /d:"sonar.host.url=https://sonarcloud.io" /o:"dev-11" /d:"sonar.login=130d2a5a5117e7dda2e7c9dfd233c32412c2884d"
+ - msbuild /verbosity:quiet "CheckoutPaymentGateway.sln"
+ - SonarScanner.MSBuild.exe end /d:"sonar.login=130d2a5a5117e7dda2e7c9dfd233c32412c2884d"
 
 test_script:
 - .\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:"test --logger:trx;LogFileName=results.trx /p:DebugType=full .\PaymentGateway.Service.Tests\PaymentGateway.Service.Tests.csproj" -output:"coverage.xml" -filter:"+[PaymentGateway*]* -[*.Tests]*" -oldstyle
