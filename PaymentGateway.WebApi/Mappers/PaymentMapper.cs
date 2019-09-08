@@ -5,7 +5,7 @@ namespace PaymentGateway.WebApi.Mappers
 {
     public class PaymentMapper : IMapper<Payment, PaymentDto>
     {
-        private static IMapper<Card, CardDto> _cardMapper;
+        private readonly IMapper<Card, CardDto> _cardMapper;
 
         public PaymentMapper(IMapper<Card, CardDto> cardMapper)
         {

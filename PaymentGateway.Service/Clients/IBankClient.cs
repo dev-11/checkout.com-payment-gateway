@@ -2,6 +2,6 @@ namespace PaymentGateway.Service.Clients
 {
     public interface IBankClient
     {
-        BankTransactionResponseDto ProcessTransaction(BankTransactionRequestDto bankTransactionRequestDto);
+        BankTransactionResponseDto ProcessTransaction(BankTransactionRequestDto request);
     }
 }

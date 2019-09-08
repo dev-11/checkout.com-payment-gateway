@@ -5,6 +5,6 @@ namespace PaymentGateway.Service.Mappers
 {
     public interface IPaymentMapper
     {
-        Payment Map(Guid Id, bool isSuccessful, PaymentRequest paymentRequest);
+        Payment Map(Guid id, bool isSuccessful, PaymentRequest paymentRequest);
     }
 }
