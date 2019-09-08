@@ -58,6 +58,31 @@ namespace PaymentGateway.WebApi.Tests.Mocks
                         return mock.Object;
                     }
                 }
+
+                public static IMapper<Payment, PaymentDto> PaymentDtoMapper
+                {
+                    get
+                    {
+                        var mock = new Mock<IMapper<Payment, PaymentDto>>();
+                        mock.Setup(x => x.Map(It.IsAny<Payment>()))
+                            .Returns(new PaymentDto
+                            {
+                                Amount = 1,
+                                Currency = "GBP",
+                                Card = new CardDto
+                                {
+                                    CardNumber = "1234123412341234",
+                                    Cvv = 123,
+                                    ExpiryMonth = 12,
+                                    ExpiryYear = 20
+                                },
+                                Id = new Guid("24b542a8-4825-4089-ace6-6c0ef8bd56a8"),
+                                IsSuccessful = true
+                            });
+
+                        return mock.Object;
+                    }
+                }
             }
         }
     }

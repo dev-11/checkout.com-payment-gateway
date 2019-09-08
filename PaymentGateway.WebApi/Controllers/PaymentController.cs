@@ -30,10 +30,10 @@ namespace PaymentGateway.WebApi.Controllers
         [HttpPost("processPayment")]
         public IActionResult RequestPayment([FromBody] PaymentRequestDto paymentRequest)
         {
-//            if (!ModelState.IsValid)
-//            {
-//                return BadRequest(paymentRequest);
-//            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(paymentRequest);
+            }
 
             var serviceRequest = _requestMapper.Map(paymentRequest);
             var serviceResponse = _paymentService.ProcessPayment(serviceRequest);
@@ -44,6 +44,11 @@ namespace PaymentGateway.WebApi.Controllers
         [HttpGet("getPayment")]
         public IActionResult GetPayment(Guid paymentId)
         {
+            if (paymentId == Guid.Empty)
+            {
+                return BadRequest("'paymentId' can't be empty.");
+            }
+
             var result = _paymentService.GetPayment(paymentId);
             
             return Ok(_paymentDtoMapper.Map(result));

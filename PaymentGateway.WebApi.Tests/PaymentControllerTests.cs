@@ -14,7 +14,7 @@ namespace PaymentGateway.WebApi.Tests
         {
             var controller = new PaymentController(Mocks.Mock.For.PaymentPaymentControllerTests.RequestMapper,
                                                    Mocks.Mock.For.PaymentPaymentControllerTests.ResponseMapper,
-                                                   null,
+                                                   Mocks.Mock.For.PaymentPaymentControllerTests.PaymentDtoMapper,
                                                    Mocks.Mock.For.PaymentPaymentControllerTests.PaymentService);
 
             var response = controller.RequestPayment(new PaymentRequestDto
@@ -39,6 +39,40 @@ namespace PaymentGateway.WebApi.Tests
             var payload = (PaymentResponseDto) ((OkObjectResult) response).Value;
             payload.PaymentId.Should().NotBe(Guid.Empty);
             payload.IsRequestSucceeded.Should().BeTrue();
+        }
+
+        [Fact]
+        public void GetPaymentReturnsOkWithFilledPaymentOnRequest()
+        {
+            var expectedPaymentDto = new PaymentDto
+            {
+                Amount = 1,
+                Currency = "GBP",
+                Card = new CardDto
+                {
+                    CardNumber = "1234123412341234",
+                    Cvv = 123,
+                    ExpiryMonth = 12,
+                    ExpiryYear = 20
+                },
+                Id = new Guid("24b542a8-4825-4089-ace6-6c0ef8bd56a8"),
+                IsSuccessful = true
+            };
+
+            var controller = new PaymentController(Mocks.Mock.For.PaymentPaymentControllerTests.RequestMapper,
+                                                   Mocks.Mock.For.PaymentPaymentControllerTests.ResponseMapper,
+                                                   Mocks.Mock.For.PaymentPaymentControllerTests.PaymentDtoMapper,
+                                                   Mocks.Mock.For.PaymentPaymentControllerTests.PaymentService);
+
+            var response = controller.GetPayment(new Guid("24b542a8-4825-4089-ace6-6c0ef8bd56a8"));
+
+            response.Should().NotBeNull();
+            response.GetType().Should().Be(typeof(OkObjectResult));
+            var httpResult = (OkObjectResult) response;
+            httpResult.StatusCode.HasValue.Should().BeTrue();
+            httpResult.StatusCode.Should().Be(200);
+            ((OkObjectResult) response).Value.GetType().Should().Be(typeof(PaymentDto));
+            ((PaymentDto) ((OkObjectResult) response).Value).Should().BeEquivalentTo(expectedPaymentDto);
         }
     }
 }

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -17,6 +19,7 @@ using PaymentGateway.Service.Dom;
 using PaymentGateway.Service.Mappers;
 using PaymentGateway.WebApi.Mappers;
 using PaymentGateway.WebApi.Models;
+using PaymentGateway.WebApi.Validators;
 using SimpleInjector;
 using SimpleInjector.Integration.AspNetCore.Mvc;
 using SimpleInjector.Lifestyles;
@@ -41,7 +44,7 @@ namespace PaymentGateway.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddFluentValidation();
             services.AddMvcCore().AddMetricsCore();
             services.AddSingleton<IControllerActivator>(new SimpleInjectorControllerActivator(_container));
             services.UseSimpleInjectorAspNetRequestScoping(_container);
@@ -49,6 +52,9 @@ namespace PaymentGateway.WebApi
             {
                 c.SwaggerDoc("v1", new Info { Title = "Payment GateWay Api", Version = "v1" });
             });
+            
+            services.AddTransient<IValidator<CardDto>, CardDtoValidator>();
+            services.AddTransient<IValidator<PaymentRequestDto>, PaymentRequestDtoValidator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
