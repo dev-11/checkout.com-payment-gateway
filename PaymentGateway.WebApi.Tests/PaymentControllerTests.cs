@@ -42,6 +42,24 @@ namespace PaymentGateway.WebApi.Tests
         }
 
         [Fact]
+        public void ProcessPaymentReturnsBadRequestForInvalidModelState()
+        {
+            var controller = new PaymentController(Mocks.Mock.For.PaymentPaymentControllerTests.RequestMapper,
+                Mocks.Mock.For.PaymentPaymentControllerTests.ResponseMapper,
+                Mocks.Mock.For.PaymentPaymentControllerTests.PaymentDtoMapper,
+                Mocks.Mock.For.PaymentPaymentControllerTests.PaymentService);
+
+            controller.ModelState.AddModelError("InvalidModel", "Test model error");
+            var response = controller.RequestPayment(new PaymentRequestDto());
+
+            response.Should().NotBeNull();
+            response.GetType().Should().Be(typeof(BadRequestObjectResult));
+            var httpResult = (BadRequestObjectResult) response;
+            httpResult.StatusCode.HasValue.Should().BeTrue();
+            httpResult.StatusCode.Should().Be(400);
+        }
+
+        [Fact]
         public void GetPaymentReturnsOkWithFilledPaymentOnRequest()
         {
             var expectedPaymentDto = new PaymentDto
@@ -73,6 +91,23 @@ namespace PaymentGateway.WebApi.Tests
             httpResult.StatusCode.Should().Be(200);
             ((OkObjectResult) response).Value.GetType().Should().Be(typeof(PaymentDto));
             ((PaymentDto) ((OkObjectResult) response).Value).Should().BeEquivalentTo(expectedPaymentDto);
+        }
+
+        [Fact]
+        public void GetPaymentReturnsBadRequestOnEmptyGuid()
+        {
+            var controller = new PaymentController(Mocks.Mock.For.PaymentPaymentControllerTests.RequestMapper,
+                Mocks.Mock.For.PaymentPaymentControllerTests.ResponseMapper,
+                Mocks.Mock.For.PaymentPaymentControllerTests.PaymentDtoMapper,
+                Mocks.Mock.For.PaymentPaymentControllerTests.PaymentService);
+
+            var response = controller.GetPayment(Guid.Empty);
+
+            response.Should().NotBeNull();
+            response.GetType().Should().Be(typeof(BadRequestObjectResult));
+            var httpResult = (BadRequestObjectResult) response;
+            httpResult.StatusCode.HasValue.Should().BeTrue();
+            httpResult.StatusCode.Value.Should().Be(400);
         }
     }
 }
