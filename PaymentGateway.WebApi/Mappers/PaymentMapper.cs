@@ -3,11 +3,11 @@ using PaymentGateway.WebApi.Models;
 
 namespace PaymentGateway.WebApi.Mappers
 {
-    public class PaymentDtoMapper : IMapper<Payment, PaymentDto>
+    public class PaymentMapper : IMapper<Payment, PaymentDto>
     {
         private static IMapper<Card, CardDto> _cardMapper;
 
-        public PaymentDtoMapper(IMapper<Card, CardDto> cardMapper)
+        public PaymentMapper(IMapper<Card, CardDto> cardMapper)
         {
             _cardMapper = cardMapper;
         }
@@ -22,6 +22,7 @@ namespace PaymentGateway.WebApi.Mappers
             return new PaymentDto
             {
                 Amount = obj.Amount,
+                Currency = obj.Currency,
                 Card = _cardMapper.Map(obj.Card),
                 IsSuccessful = obj.IsSuccessful,
                 Id = obj.Id

@@ -21,6 +21,7 @@ using SimpleInjector;
 using SimpleInjector.Integration.AspNetCore.Mvc;
 using SimpleInjector.Lifestyles;
 using Swashbuckle.AspNetCore.Swagger;
+using PaymentMapper = PaymentGateway.WebApi.Mappers.PaymentMapper;
 
 namespace PaymentGateway.WebApi
 {
@@ -78,13 +79,13 @@ namespace PaymentGateway.WebApi
         {
             _container.RegisterMvcControllers(app);
 
-            _container.Register<IMapper<PaymentRequestDto, PaymentRequest>, PaymentRequestMapper>(Lifestyle.Scoped);
+            _container.Register<IMapper<PaymentRequestDto, PaymentRequest>, PaymentRequestDtoMapper>(Lifestyle.Scoped);
             _container.Register<IMapper<PaymentResponse, PaymentResponseDto>, PaymentResponseMapper>(Lifestyle.Scoped);
-            _container.Register<IMapper<Payment, PaymentDto>, PaymentDtoMapper>(Lifestyle.Scoped);
+            _container.Register<IMapper<Payment, PaymentDto>, PaymentMapper>(Lifestyle.Scoped);
             _container.Register<IMapper<CardDto, Card>, CardMapper>(Lifestyle.Scoped);
             _container.Register<IMapper<Card, CardDto>, CardMapper>(Lifestyle.Scoped);
 
-            _container.Register<IPaymentMapper, PaymentMapper>(Lifestyle.Scoped);
+            _container.Register<IPaymentMapper, Service.Mappers.PaymentMapper>(Lifestyle.Scoped);
 
             _container.Register<IPaymentService, PaymentService>(Lifestyle.Scoped);
             _container.RegisterSingleton<IPaymentRepository, PaymentRepository>();

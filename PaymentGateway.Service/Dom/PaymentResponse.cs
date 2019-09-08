@@ -6,7 +6,5 @@ namespace PaymentGateway.Service.Dom
     {
         public bool IsRequestSucceeded { get; set; }
         public Guid PaymentId { get; set; }
-
-        public static PaymentResponse Empty => new PaymentResponse();
     }
 }

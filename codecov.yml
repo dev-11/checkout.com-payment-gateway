@@ -29,3 +29,4 @@ ignore:
   - "**/Program.cs"
   - "**/Startup.cs"
   - "**/Clients/**"
+  - "**/PaymentRepository.cs"

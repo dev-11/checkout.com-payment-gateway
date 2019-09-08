@@ -73,7 +73,7 @@ namespace PaymentGateway.Service.Tests
         }
 
         [Fact]
-        public void GetPaymentHistory_ReturnsEmptyResponseOnEmptyRequest()
+        public void GetPayment_ReturnsEmptyResponseOnEmptyRequest()
         {
             var service = new PaymentService(Mocks.Mock.For.PaymentHistoryServiceTests.PaymentRepositoryForEmptyRequest,
                                              Mocks.Mock.For.PaymentServiceTests.GeneralBankClientMock,
@@ -89,10 +89,12 @@ namespace PaymentGateway.Service.Tests
             response.Card.CardNumber.Should().Be(default(string));
             response.Card.ExpiryMonth.Should().Be(default(int));
             response.Card.ExpiryYear.Should().Be(default(int));
+            response.Id.Should().Be(Guid.Empty);
+            response.IsSuccessful.Should().BeFalse();
         }
 
         [Fact]
-        public void GetPaymentHistory_ReturnEmptyResponseOnRequestWithNotExistingId()
+        public void GetPayment_ReturnEmptyResponseOnRequestWithNotExistingId()
         {
             var service = new PaymentService(Mocks.Mock.For.PaymentHistoryServiceTests.PaymentRepositoryForNotFoundTest,
                                              Mocks.Mock.For.PaymentServiceTests.GeneralBankClientMock,
@@ -108,10 +110,12 @@ namespace PaymentGateway.Service.Tests
             response.Card.CardNumber.Should().Be(default(string));
             response.Card.ExpiryMonth.Should().Be(default(int));
             response.Card.ExpiryYear.Should().Be(default(int));
+            response.Id.Should().Be(Guid.Empty);
+            response.IsSuccessful.Should().BeFalse();
         }
 
         [Fact]
-        public void GetPaymentHistory_ReturnsCorrectResponseOnRequest()
+        public void GetPayment_ReturnsCorrectResponseOnRequest()
         {
             var service = new PaymentService(Mocks.Mock.For.PaymentHistoryServiceTests.GeneralPaymentRepository,
                                              Mocks.Mock.For.PaymentServiceTests.GeneralBankClientMock,
@@ -127,6 +131,8 @@ namespace PaymentGateway.Service.Tests
             response.Card.CardNumber.Should().Be("4716171572210785");
             response.Card.ExpiryMonth.Should().Be(11);
             response.Card.ExpiryYear.Should().Be(20);
+            response.Id.Should().Be("24b542a8-4825-4089-ace6-6c0ef8bd56a8");
+            response.IsSuccessful.Should().BeTrue();
         }
     }
 }

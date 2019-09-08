@@ -7,13 +7,15 @@ namespace PaymentGateway.WebApi.Mappers
     {
         public Card Map(CardDto obj)
         {
-            return new Card
-            {
-                Cvv = obj.Cvv,
-                CardNumber = obj.CardNumber,
-                ExpiryYear = obj.ExpiryYear,
-                ExpiryMonth = obj.ExpiryMonth
-            };
+            return obj is null
+                ? Card.Empty
+                : new Card
+                {
+                    Cvv = obj.Cvv,
+                    CardNumber = obj.CardNumber,
+                    ExpiryYear = obj.ExpiryYear,
+                    ExpiryMonth = obj.ExpiryMonth
+                };
         }
 
         public CardDto Map(Card obj)

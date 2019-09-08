@@ -60,7 +60,9 @@ namespace PaymentGateway.Service.Tests.Mocks
                                     ExpiryYear = 20
                                 },
                                 Amount = 12,
-                                Currency = "GBP"
+                                Currency = "GBP",
+                                Id = new Guid("24b542a8-4825-4089-ace6-6c0ef8bd56a8"),
+                                IsSuccessful = true
                             });
 
                         return mock.Object;
