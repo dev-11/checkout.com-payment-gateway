@@ -30,3 +30,4 @@ ignore:
   - "**/Startup.cs"
   - "**/Clients/**"
   - "**/PaymentRepository.cs"
+  - "**/PaymentGatewayAuthorizationHandler.cs"

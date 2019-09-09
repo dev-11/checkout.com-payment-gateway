@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace PaymentGateway.WebApi.Auth
 {
-    public class HasScopeHandler : AuthorizationHandler<HasScopeRequirement>
+    public class PaymentGatewayAuthorizationHandler : AuthorizationHandler<ScopeRequirement>
     {
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, HasScopeRequirement requirement)
+        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, ScopeRequirement requirement)
         {
             // If user does not have the scope claim, get out of here
             if (!context.User.HasClaim(c => c.Type == "scope" && c.Issuer == requirement.Issuer))

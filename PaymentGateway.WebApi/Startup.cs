@@ -82,10 +82,11 @@ namespace PaymentGateway.WebApi
     
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("read-write:test-scope", policy => policy.Requirements.Add(new HasScopeRequirement("read-write:test-scope", authority)));
+                options.AddPolicy("read-write:test-scope",
+                    policy => policy.Requirements.Add(new ScopeRequirement("read-write:test-scope", authority)));
             });
 
-            services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
+            services.AddSingleton<IAuthorizationHandler, PaymentGatewayAuthorizationHandler>();
             
             services.AddTransient<IValidator<CardDto>, CardDtoValidator>();
             services.AddTransient<IValidator<PaymentRequestDto>, PaymentRequestDtoValidator>();
