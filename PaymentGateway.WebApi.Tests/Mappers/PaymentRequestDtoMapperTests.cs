@@ -6,7 +6,7 @@ using Xunit;
 
 namespace PaymentGateway.WebApi.Tests.Mappers
 {
-    public class PaymentRequestMapperTests
+    public class PaymentRequestDtoMapperTests
     {
         [Fact]
         public void MapperMapsNullDtoToEmptyRequest()
