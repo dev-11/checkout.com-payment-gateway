@@ -54,7 +54,8 @@ namespace PaymentGateway.WebApi.Tests
             var response = controller.RequestPayment(new PaymentRequestDto());
 
             response.Should().NotBeNull();
-            response.GetType().Should().Be(typeof(BadRequestObjectResult));
+            response.Result.Should().NotBeNull();
+            response.Result.GetType().Should().Be(typeof(BadRequestObjectResult));
             var httpResult = (BadRequestObjectResult) response.Result;
             httpResult.StatusCode.HasValue.Should().BeTrue();
             httpResult.StatusCode.Should().Be(400);
