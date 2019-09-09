@@ -1,5 +1,8 @@
-﻿using FluentValidation;
+﻿using System.Collections.Generic;
+using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +13,7 @@ using PaymentGateway.Service;
 using PaymentGateway.Service.Clients;
 using PaymentGateway.Service.Dom;
 using PaymentGateway.Service.Mappers;
+using PaymentGateway.WebApi.Auth;
 using PaymentGateway.WebApi.Mappers;
 using PaymentGateway.WebApi.Models;
 using PaymentGateway.WebApi.Validators;
@@ -44,6 +48,18 @@ namespace PaymentGateway.WebApi
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "Payment GateWay Api", Version = "v1" });
+                c.AddSecurityDefinition("Bearer", new ApiKeyScheme
+                {
+                    In = "header",
+                    Description = "Please insert JWT with Bearer into field",
+                    Name = "Authorization",
+                    Type = "apiKey"
+                });
+
+                c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
+                {
+                    {"Bearer", new string[] { }}
+                });
             });
 
             services.AddSimpleInjector(_container, options =>
@@ -52,6 +68,25 @@ namespace PaymentGateway.WebApi
                        .AddControllerActivation();
             });
 
+            string authority = Configuration["Auth0:Authority"];
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
+            }).AddJwtBearer(options =>
+            {
+                options.Authority = authority;
+                options.Audience = Configuration["Auth0:Audience"];
+            });
+    
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("read-write:test-scope", policy => policy.Requirements.Add(new HasScopeRequirement("read-write:test-scope", authority)));
+            });
+
+            services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
+            
             services.AddTransient<IValidator<CardDto>, CardDtoValidator>();
             services.AddTransient<IValidator<PaymentRequestDto>, PaymentRequestDtoValidator>();
         }
@@ -73,6 +108,7 @@ namespace PaymentGateway.WebApi
             }
 
             app.UseHttpsRedirection();
+            app.UseAuthentication();
             app.UseMvc();
             
             app.UseSwagger();

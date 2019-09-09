@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PaymentGateway.Service;
 using PaymentGateway.Service.Dom;
@@ -29,6 +30,7 @@ namespace PaymentGateway.WebApi.Controllers
         }
 
         [HttpPost("processPayment")]
+        [Authorize]
         public async Task<IActionResult> RequestPayment([FromBody] PaymentRequestDto paymentRequest)
         {
             if (!ModelState.IsValid)
@@ -43,6 +45,7 @@ namespace PaymentGateway.WebApi.Controllers
         }
 
         [HttpGet("getPayment")]
+        [Authorize]
         public async Task<IActionResult> GetPayment(Guid paymentId)
         {
             if (paymentId == Guid.Empty)
