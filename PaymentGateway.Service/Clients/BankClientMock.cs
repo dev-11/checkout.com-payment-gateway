@@ -1,20 +1,23 @@
+using System.Threading.Tasks;
+
 namespace PaymentGateway.Service.Clients
 {
     public class BankClientMock : IBankClient
     {
-        public BankTransactionResponseDto ProcessTransaction(BankTransactionRequestDto request)
+        public async Task<BankTransactionResponseDto> ProcessTransaction(BankTransactionRequestDto request)
         {
             if (request is null)
             {
-                return new BankTransactionResponseDto
+                return await Task.Run(() => new BankTransactionResponseDto
                 {
                     IsTransactionSuccessful = false
-                };
+                });
             }
 
-            return new BankTransactionResponseDto
+            return await Task.Run(() => new BankTransactionResponseDto
             {
                 IsTransactionSuccessful = request.Amount <= 100
-            };        }
+            });
+        }
     }
 }

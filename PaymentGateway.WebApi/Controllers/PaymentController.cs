@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PaymentGateway.Service;
 using PaymentGateway.Service.Dom;
@@ -28,7 +29,7 @@ namespace PaymentGateway.WebApi.Controllers
         }
 
         [HttpPost("processPayment")]
-        public IActionResult RequestPayment([FromBody] PaymentRequestDto paymentRequest)
+        public async Task<IActionResult> RequestPayment([FromBody] PaymentRequestDto paymentRequest)
         {
             if (!ModelState.IsValid)
             {
@@ -36,20 +37,20 @@ namespace PaymentGateway.WebApi.Controllers
             }
 
             var serviceRequest = _requestMapper.Map(paymentRequest);
-            var serviceResponse = _paymentService.ProcessPayment(serviceRequest);
+            var serviceResponse = await _paymentService.ProcessPayment(serviceRequest);
 
             return Ok(_responseMapper.Map(serviceResponse));
         }
 
         [HttpGet("getPayment")]
-        public IActionResult GetPayment(Guid paymentId)
+        public async Task<IActionResult> GetPayment(Guid paymentId)
         {
             if (paymentId == Guid.Empty)
             {
                 return BadRequest("'paymentId' can't be empty.");
             }
 
-            var result = _paymentService.GetPayment(paymentId);
+            var result = await _paymentService.GetPayment(paymentId);
             
             return Ok(_paymentDtoMapper.Map(result));
         }

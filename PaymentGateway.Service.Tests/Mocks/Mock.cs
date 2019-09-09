@@ -20,7 +20,7 @@ namespace PaymentGateway.Service.Tests.Mocks
                     {
                         var mock = new Mock<IPaymentRepository>();
                         mock.Setup(x => x.Get(It.IsAny<Guid>()))
-                            .Returns(new Payment
+                            .ReturnsAsync(new Payment
                             {
                                 Card = new Card()
                             });
@@ -35,7 +35,7 @@ namespace PaymentGateway.Service.Tests.Mocks
                     {
                         var mock = new Mock<IPaymentRepository>();
                         mock.Setup(x => x.Get(It.IsAny<Guid>()))
-                            .Returns(new Payment
+                            .ReturnsAsync(new Payment
                             {
                                 Card = new Card()
                             });
@@ -50,7 +50,7 @@ namespace PaymentGateway.Service.Tests.Mocks
                     {
                         var mock = new Mock<IPaymentRepository>();
                         mock.Setup(x => x.Get(It.IsAny<Guid>()))
-                            .Returns(new Payment
+                            .ReturnsAsync(new Payment
                             {
                                 Card = new Card
                                 {
@@ -83,7 +83,7 @@ namespace PaymentGateway.Service.Tests.Mocks
                     {
                         var mock = new Mock<IPaymentRepository>();
                         mock.Setup(x => x.Save(It.IsAny<Payment>()))
-                            .Returns(Guid.Empty);
+                            .ReturnsAsync(Guid.Empty);
 
                         return mock.Object;
                     }
@@ -95,7 +95,7 @@ namespace PaymentGateway.Service.Tests.Mocks
                     {
                         var mock = new Mock<IPaymentRepository>();
                         mock.Setup(x => x.Save(It.IsAny<Payment>()))
-                            .Returns(new Guid("85a47a09-3fd8-4843-b161-ded7a970b286"));
+                            .ReturnsAsync(new Guid("85a47a09-3fd8-4843-b161-ded7a970b286"));
 
                         return mock.Object;
                     }
@@ -108,7 +108,7 @@ namespace PaymentGateway.Service.Tests.Mocks
                     {
                         var mock = new Mock<IBankClient>();
                         mock.Setup(x => x.ProcessTransaction(It.IsAny<BankTransactionRequestDto>()))
-                            .Returns((BankTransactionRequestDto request) =>
+                            .ReturnsAsync((BankTransactionRequestDto request) =>
                             {
                                 if (request is null)
                                 {

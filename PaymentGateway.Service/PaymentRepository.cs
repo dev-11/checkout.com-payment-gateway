@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using PaymentGateway.Service.Dom;
 
 namespace PaymentGateway.Service
@@ -13,18 +14,21 @@ namespace PaymentGateway.Service
             _storage = new Dictionary<Guid, Payment>();
         }
         
-        public Payment Get(Guid id)
+        public async Task<Payment> Get(Guid id)
         {
-            return _storage.ContainsKey(id) ? _storage[id] : Payment.Empty;
+            return await Task.Run(() => _storage.ContainsKey(id) ? _storage[id] : Payment.Empty);
         }
 
-        public Guid Save(Payment payment)
+        public async Task<Guid> Save(Payment payment)
         {
-            var id = Guid.NewGuid();
-            payment.Id = id;
-            _storage[id] = payment;
+            return await Task.Run(() =>
+            {
+                var id = Guid.NewGuid();
+                payment.Id = id;
+                _storage[id] = payment;
 
-            return id;
+                return id;
+            });
         }
     }
 }

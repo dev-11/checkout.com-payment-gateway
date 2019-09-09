@@ -17,8 +17,9 @@ namespace PaymentGateway.Service.Tests
             var response = service.ProcessPayment(Mocks.Mock.For.PaymentServiceTests.EmptyRequest);
 
             response.Should().NotBeNull();
-            response.PaymentId.Should().Be(Guid.Empty);
-            response.IsRequestSucceeded.Should().BeFalse();
+            response.Result.Should().NotBeNull();
+            response.Result.PaymentId.Should().Be(Guid.Empty);
+            response.Result.IsRequestSucceeded.Should().BeFalse();
         }
 
         [Fact]
@@ -42,9 +43,10 @@ namespace PaymentGateway.Service.Tests
             });
 
             response.Should().NotBeNull();
-            response.PaymentId.Should().NotBe(Guid.Empty);
-            response.PaymentId.Should().Be("85a47a09-3fd8-4843-b161-ded7a970b286");
-            response.IsRequestSucceeded.Should().BeTrue();
+            response.Result.Should().NotBeNull();
+            response.Result.PaymentId.Should().NotBe(Guid.Empty);
+            response.Result.PaymentId.Should().Be("85a47a09-3fd8-4843-b161-ded7a970b286");
+            response.Result.IsRequestSucceeded.Should().BeTrue();
         }
 
         [Fact]
@@ -68,8 +70,9 @@ namespace PaymentGateway.Service.Tests
             });
 
             response.Should().NotBeNull();
-            response.PaymentId.Should().NotBe(Guid.Empty);
-            response.IsRequestSucceeded.Should().BeFalse();
+            response.Result.Should().NotBeNull();
+            response.Result.PaymentId.Should().NotBe(Guid.Empty);
+            response.Result.IsRequestSucceeded.Should().BeFalse();
         }
 
         [Fact]
@@ -82,15 +85,16 @@ namespace PaymentGateway.Service.Tests
             var response = service.GetPayment(Mocks.Mock.For.PaymentHistoryServiceTests.EmptyGuid);
 
             response.Should().NotBeNull();
-            response.Amount.Should().Be(default(double));
-            response.Currency.Should().Be(default(string));
-            response.Card.Should().NotBeNull();
-            response.Card.Cvv.Should().Be(default(int));
-            response.Card.CardNumber.Should().Be(default(string));
-            response.Card.ExpiryMonth.Should().Be(default(int));
-            response.Card.ExpiryYear.Should().Be(default(int));
-            response.Id.Should().Be(Guid.Empty);
-            response.IsSuccessful.Should().BeFalse();
+            response.Result.Should().NotBeNull();
+            response.Result.Amount.Should().Be(default(double));
+            response.Result.Currency.Should().Be(default(string));
+            response.Result.Card.Should().NotBeNull();
+            response.Result.Card.Cvv.Should().Be(default(int));
+            response.Result.Card.CardNumber.Should().Be(default(string));
+            response.Result.Card.ExpiryMonth.Should().Be(default(int));
+            response.Result.Card.ExpiryYear.Should().Be(default(int));
+            response.Result.Id.Should().Be(Guid.Empty);
+            response.Result.IsSuccessful.Should().BeFalse();
         }
 
         [Fact]
@@ -103,15 +107,16 @@ namespace PaymentGateway.Service.Tests
             var response = service.GetPayment(new Guid("24b542a8-4825-4089-ace6-6c0ef8bd56a8"));
 
             response.Should().NotBeNull();
-            response.Amount.Should().Be(default(double));
-            response.Currency.Should().Be(default(string));
-            response.Card.Should().NotBeNull();
-            response.Card.Cvv.Should().Be(default(int));
-            response.Card.CardNumber.Should().Be(default(string));
-            response.Card.ExpiryMonth.Should().Be(default(int));
-            response.Card.ExpiryYear.Should().Be(default(int));
-            response.Id.Should().Be(Guid.Empty);
-            response.IsSuccessful.Should().BeFalse();
+            response.Result.Should().NotBeNull();
+            response.Result.Amount.Should().Be(default(double));
+            response.Result.Currency.Should().Be(default(string));
+            response.Result.Card.Should().NotBeNull();
+            response.Result.Card.Cvv.Should().Be(default(int));
+            response.Result.Card.CardNumber.Should().Be(default(string));
+            response.Result.Card.ExpiryMonth.Should().Be(default(int));
+            response.Result.Card.ExpiryYear.Should().Be(default(int));
+            response.Result.Id.Should().Be(Guid.Empty);
+            response.Result.IsSuccessful.Should().BeFalse();
         }
 
         [Fact]
@@ -124,15 +129,16 @@ namespace PaymentGateway.Service.Tests
             var response = service.GetPayment(new Guid("24b542a8-4825-4089-ace6-6c0ef8bd56a8"));
 
             response.Should().NotBeNull();
-            response.Amount.Should().Be(12);
-            response.Currency.Should().Be("GBP");
-            response.Card.Should().NotBeNull();
-            response.Card.Cvv.Should().Be(123);
-            response.Card.CardNumber.Should().Be("4716171572210785");
-            response.Card.ExpiryMonth.Should().Be(11);
-            response.Card.ExpiryYear.Should().Be(20);
-            response.Id.Should().Be("24b542a8-4825-4089-ace6-6c0ef8bd56a8");
-            response.IsSuccessful.Should().BeTrue();
+            response.Result.Should().NotBeNull();
+            response.Result.Amount.Should().Be(12);
+            response.Result.Currency.Should().Be("GBP");
+            response.Result.Card.Should().NotBeNull();
+            response.Result.Card.Cvv.Should().Be(123);
+            response.Result.Card.CardNumber.Should().Be("4716171572210785");
+            response.Result.Card.ExpiryMonth.Should().Be(11);
+            response.Result.Card.ExpiryYear.Should().Be(20);
+            response.Result.Id.Should().Be("24b542a8-4825-4089-ace6-6c0ef8bd56a8");
+            response.Result.IsSuccessful.Should().BeTrue();
         }
     }
 }

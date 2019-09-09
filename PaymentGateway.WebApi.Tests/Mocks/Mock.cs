@@ -21,7 +21,7 @@ namespace PaymentGateway.WebApi.Tests.Mocks
                     {
                         var mock = new Mock<IPaymentService>();
                         mock.Setup(x => x.ProcessPayment(It.IsAny<PaymentRequest>()))
-                            .Returns(new PaymentResponse
+                            .ReturnsAsync(new PaymentResponse
                             {
                                 IsRequestSucceeded = true,
                                 PaymentId = Guid.NewGuid()

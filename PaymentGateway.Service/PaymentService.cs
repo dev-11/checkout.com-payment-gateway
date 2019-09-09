@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using PaymentGateway.Service.Clients;
 using PaymentGateway.Service.Dom;
 using PaymentGateway.Service.Mappers;
@@ -18,16 +19,16 @@ namespace PaymentGateway.Service
             _paymentMapper = paymentMapper;
         }
 
-        public PaymentResponse ProcessPayment(PaymentRequest paymentRequest)
+        public async Task<PaymentResponse> ProcessPayment(PaymentRequest paymentRequest)
         {
-            var bankResponse = _bankClient.ProcessTransaction(new BankTransactionRequestDto
+            var bankResponse = await _bankClient.ProcessTransaction(new BankTransactionRequestDto
             {
                 Amount = paymentRequest.Amount
             });
 
             var payment = _paymentMapper.Map(Guid.Empty, bankResponse.IsTransactionSuccessful, paymentRequest);
 
-            var id = _repository.Save(payment);
+            var id = await _repository.Save(payment);
             return new PaymentResponse
             {
                 PaymentId = id,
@@ -35,9 +36,9 @@ namespace PaymentGateway.Service
             };
         }
 
-        public Payment GetPayment(Guid paymentId)
+        public async Task<Payment> GetPayment(Guid paymentId)
         {
-            return paymentId == Guid.Empty ? Payment.Empty : _repository.Get(paymentId);
+            return paymentId == Guid.Empty ? Payment.Empty : await _repository.Get(paymentId);
         }
     }
 }

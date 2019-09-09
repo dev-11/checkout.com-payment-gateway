@@ -31,12 +31,13 @@ namespace PaymentGateway.WebApi.Tests
             });
 
             response.Should().NotBeNull();
-            response.GetType().Should().Be(typeof(OkObjectResult));
-            var httpResult = (OkObjectResult) response;
+            response.Result.Should().NotBeNull();
+            response.Result.GetType().Should().Be(typeof(OkObjectResult));
+            var httpResult = (OkObjectResult) response.Result;
             httpResult.StatusCode.HasValue.Should().BeTrue();
             httpResult.StatusCode.Should().Be(200);
-            ((OkObjectResult) response).Value.GetType().Should().Be(typeof(PaymentResponseDto));
-            var payload = (PaymentResponseDto) ((OkObjectResult) response).Value;
+            ((OkObjectResult) response.Result).Value.GetType().Should().Be(typeof(PaymentResponseDto));
+            var payload = (PaymentResponseDto) ((OkObjectResult) response.Result).Value;
             payload.PaymentId.Should().NotBe(Guid.Empty);
             payload.IsRequestSucceeded.Should().BeTrue();
         }
@@ -54,7 +55,7 @@ namespace PaymentGateway.WebApi.Tests
 
             response.Should().NotBeNull();
             response.GetType().Should().Be(typeof(BadRequestObjectResult));
-            var httpResult = (BadRequestObjectResult) response;
+            var httpResult = (BadRequestObjectResult) response.Result;
             httpResult.StatusCode.HasValue.Should().BeTrue();
             httpResult.StatusCode.Should().Be(400);
         }
@@ -85,12 +86,13 @@ namespace PaymentGateway.WebApi.Tests
             var response = controller.GetPayment(new Guid("24b542a8-4825-4089-ace6-6c0ef8bd56a8"));
 
             response.Should().NotBeNull();
-            response.GetType().Should().Be(typeof(OkObjectResult));
-            var httpResult = (OkObjectResult) response;
+            response.Result.Should().NotBeNull();
+            response.Result.GetType().Should().Be(typeof(OkObjectResult));
+            var httpResult = (OkObjectResult) response.Result;
             httpResult.StatusCode.HasValue.Should().BeTrue();
             httpResult.StatusCode.Should().Be(200);
-            ((OkObjectResult) response).Value.GetType().Should().Be(typeof(PaymentDto));
-            ((PaymentDto) ((OkObjectResult) response).Value).Should().BeEquivalentTo(expectedPaymentDto);
+            ((OkObjectResult) response.Result).Value.GetType().Should().Be(typeof(PaymentDto));
+            ((PaymentDto) ((OkObjectResult) response.Result).Value).Should().BeEquivalentTo(expectedPaymentDto);
         }
 
         [Fact]
@@ -104,8 +106,9 @@ namespace PaymentGateway.WebApi.Tests
             var response = controller.GetPayment(Guid.Empty);
 
             response.Should().NotBeNull();
-            response.GetType().Should().Be(typeof(BadRequestObjectResult));
-            var httpResult = (BadRequestObjectResult) response;
+            response.Result.Should().NotBeNull();
+            response.Result.GetType().Should().Be(typeof(BadRequestObjectResult));
+            var httpResult = (BadRequestObjectResult) response.Result;
             httpResult.StatusCode.HasValue.Should().BeTrue();
             httpResult.StatusCode.Value.Should().Be(400);
         }

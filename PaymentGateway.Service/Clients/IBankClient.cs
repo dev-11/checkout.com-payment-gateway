@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace PaymentGateway.Service.Clients
 {
     /// <summary>
@@ -10,6 +12,6 @@ namespace PaymentGateway.Service.Clients
         /// </summary>
         /// <param name="request">the request to be processed</param>
         /// <returns>response of the bank</returns>
-        BankTransactionResponseDto ProcessTransaction(BankTransactionRequestDto request);
+        Task<BankTransactionResponseDto> ProcessTransaction(BankTransactionRequestDto request);
     }
 }
