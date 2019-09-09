@@ -1,7 +1,7 @@
 namespace PaymentGateway.Service.Dom
 {
     /// <summary>
-    /// Bank card, credit card object
+    /// Debit/credit card object
     /// </summary>
     public class Card
     {
