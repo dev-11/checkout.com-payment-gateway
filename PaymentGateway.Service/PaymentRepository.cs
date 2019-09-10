@@ -28,7 +28,7 @@ namespace PaymentGateway.Service
                 _storage[id] = payment;
 
                 return id;
-            });
+            }).ConfigureAwait(false);
         }
     }
 }
