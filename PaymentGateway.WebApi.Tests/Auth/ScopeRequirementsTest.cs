@@ -24,7 +24,7 @@ namespace PaymentGateway.WebApi.Tests.Auth
         {
             var hasScopeRequirement = new ScopeRequirement(testScope, testIssuer);
             
-            hasScopeRequirement.Issuer.Should().Be(testIssuer);
+            hasScopeRequirement.Issuer.Should().Be(testSope);
             hasScopeRequirement.Scope.Should().Be(testIssuer);
         }
     }
