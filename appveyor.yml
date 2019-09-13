@@ -11,7 +11,7 @@ before_build:
 - nuget restore
 - nuget install OpenCover -OutputDirectory packages -Version 4.6.519
 - choco install codecov
-- dotnet tool install --global dotnet-sonarscanner --version 4.3.1
+- choco install "sonarscanner-msbuild-net46" -y
 
 build_script:
  - dSonarScanner.MSBuild.exe begin /k:"checkout.com-payment-gateway" /d:"sonar.host.url=https://sonarcloud.io" /o:"dev-11" /d:"sonar.login=130d2a5a5117e7dda2e7c9dfd233c32412c2884d"
