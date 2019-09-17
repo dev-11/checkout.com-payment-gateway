@@ -21,7 +21,5 @@ build_script:
  - .\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:"test --logger:trx;LogFileName=api_results.trx /p:DebugType=full .\PaymentGateway.WebApi.Tests\PaymentGateway.WebApi.Tests.csproj" -output:"api_coverage.xml" -filter:"+[PaymentGateway*]* -[*.Tests]*" -oldstyle
  - codecov -f "coverage.xml"
  - codecov -f "api_coverage.xml"
- - .\reportgenerator "-reports:coverage.xml" "-targetdir:coverage/Cobertura" "-reporttypes:Cobertura;HTMLInline;HTMLChart"
- - .\reportgenerator "-reports:api_coverage.xml" "-targetdir:coverage/Cobertura" "-reporttypes:Cobertura;HTMLInline;HTMLChart"
  - dotnet sonarscanner end /d:"sonar.login=130d2a5a5117e7dda2e7c9dfd233c32412c2884d"
 
