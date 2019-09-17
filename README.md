@@ -5,7 +5,3 @@
 
 Documentation available on the [wiki](https://github.com/dev-11/checkout.com-payment-gateway/wiki) page. 
 
-sonarcloud code coverage https://github.com/wulfland/code-coverage-sample
-https://writeabout.net/2019/04/27/net-core-code-coverage-done-right/
-
-
